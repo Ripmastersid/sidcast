@@ -18,7 +18,9 @@ jobs:
 
       - name: Corrigir Manifest e Compilar APK
         run: |
-          sed -i 's|http://android.com|http://android.com|g' app/src/main/AndroidManifest.xml
+          URL_REAL="http://""schemas.""android.com""/apk/res/android"
+          sed -i "s|http://android.com|$URL_REAL|g" app/src/main/AndroidManifest.xml
+          sed -i "s|http://android.com|$URL_REAL|g" app/src/main/res/layout/activity_main.xml
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
           ./gradlew assembleDebug
