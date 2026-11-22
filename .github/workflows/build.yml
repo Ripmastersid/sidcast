@@ -16,8 +16,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Gerar Gradle Wrapper e Compilar APK
+      - name: Corrigir Manifest e Compilar APK
         run: |
+          sed -i 's|http://android.com|http://android.com|g' app/src/main/AndroidManifest.xml
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
           ./gradlew assembleDebug
