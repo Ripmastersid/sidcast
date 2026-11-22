@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
 import com.pedro.common.ConnectChecker
+import com.pedro.encoder.input.gl.render.filters.NoFilterRender
 import com.pedro.encoder.input.gl.render.filters.`object`.GifObjectFilterRender
 import com.pedro.library.rtmp.RtmpDisplay
 
@@ -48,11 +49,12 @@ class ScreenService : Service(), ConnectChecker {
     fun setGifOverlay(context: Context, uri: Uri) {
         try {
             val inputStream = context.contentResolver.openInputStream(uri) ?: return
-            gifFilter = GifObjectFilterRender()
-            gifFilter?.setGif(inputStream)
-            gifFilter?.setScale(35f, 35f)
-            gifFilter?.setPosition(5f, 5f)
-            rtmpDisplay?.glInterface?.setFilter(gifFilter)
+            val filter = GifObjectFilterRender()
+            filter.setGif(inputStream)
+            filter.setScale(35f, 35f)
+            filter.setPosition(5f, 5f)
+            gifFilter = filter
+            rtmpDisplay?.glInterface?.setFilter(filter)
             isGifVisible = true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -61,7 +63,7 @@ class ScreenService : Service(), ConnectChecker {
 
     fun toggleGif() {
         if (isGifVisible) {
-            rtmpDisplay?.glInterface?.setFilter(null)
+            rtmpDisplay?.glInterface?.setFilter(NoFilterRender())
             isGifVisible = false
         } else {
             gifFilter?.let {
