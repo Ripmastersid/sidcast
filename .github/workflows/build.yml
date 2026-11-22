@@ -1,4 +1,3 @@
-
 name: Build sidcast APK
 
 on: [push, workflow_dispatch]
@@ -16,9 +15,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Configurar Android SDK
-        uses: android-actions/setup-android@v3
 
       - name: Gerar Gradle Wrapper e Compilar APK
         run: |
